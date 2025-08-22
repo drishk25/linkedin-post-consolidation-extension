@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Post Consolidator - Settings</title>
+    <link rel="stylesheet" href="options.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="../assets/icons/icon48.png" alt="LinkedIn Post Consolidator" class="logo-icon">
+                    <div class="logo-text">
+                        <h1>LinkedIn Post Consolidator</h1>
+                        <p>Extract and export your LinkedIn posts to Google Sheets</p>
+                    </div>
+                </div>
+                <div class="version" id="version">v1.0.0</div>
+            </div>
+        </header>
+
+        <!-- Welcome Message (shown on first install) -->
+        <div class="welcome-section" id="welcome-section" style="display: none;">
+            <div class="welcome-card">
+                <h2>🎉 Welcome to LinkedIn Post Consolidator!</h2>
+                <p>Thank you for installing our extension. Let's get you set up to start extracting and analyzing your LinkedIn posts.</p>
+                <div class="welcome-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Connect Google Sheets</h3>
+                            <p>Authenticate with Google to enable exporting your posts to Google Sheets</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Configure Settings</h3>
+                            <p>Customize what data to extract and how to format your exports</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Start Extracting</h3>
+                            <p>Visit LinkedIn and use the floating overlay to scan and export your posts</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" id="get-started-btn">Get Started</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Navigation Tabs -->
+            <nav class="tabs">
+                <button class="tab-btn active" data-tab="google-sheets">Google Sheets</button>
+                <button class="tab-btn" data-tab="scanning">Scanning</button>
+                <button class="tab-btn" data-tab="export">Export</button>
+                <button class="tab-btn" data-tab="advanced">Advanced</button>
+                <button class="tab-btn" data-tab="about">About</button>
+            </nav>
+
+            <!-- Google Sheets Tab -->
+            <div class="tab-content active" id="google-sheets-tab">
+                <div class="section">
+                    <h2>Google Sheets Integration</h2>
+                    <p>Connect your Google account to export LinkedIn posts directly to Google Sheets.</p>
+
+                    <div class="auth-section">
+                        <div class="auth-status" id="auth-status">
+                            <div class="status-indicator" id="auth-indicator"></div>
+                            <div class="status-text" id="auth-text">Checking authentication...</div>
+                        </div>
+
+                        <div class="auth-controls" id="auth-controls">
+                            <button class="btn btn-primary" id="auth-btn">Connect Google Account</button>
+                            <button class="btn btn-secondary" id="revoke-btn" style="display: none;">Disconnect</button>
+                        </div>
+
+                        <div class="user-info" id="user-info" style="display: none;">
+                            <img class="user-avatar" id="user-avatar" src="" alt="User Avatar">
+                            <div class="user-details">
+                                <div class="user-name" id="user-name"></div>
+                                <div class="user-email" id="user-email"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sheet-section">
+                        <h3>Default Google Sheet</h3>
+                        <p>Choose a default sheet for exports, or create a new one for each export.</p>
+                        
+                        <div class="form-group">
+                            <label for="sheet-select">Select Sheet:</label>
+                            <select id="sheet-select" class="form-control">
+                                <option value="">Create new sheet for each export</option>
+                            </select>
+                            <button class="btn btn-secondary" id="refresh-sheets-btn">Refresh</button>
+                        </div>
+
+                        <div class="form-group">
+                            <button class="btn btn-secondary" id="create-sheet-btn">Create New Sheet</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scanning Tab -->
+            <div class="tab-content" id="scanning-tab">
+                <div class="section">
+                    <h2>Scanning Preferences</h2>
+                    <p>Configure how the extension scans and extracts LinkedIn posts.</p>
+
+                    <div class="form-group">
+                        <label for="max-posts">Maximum Posts per Scan:</label>
+                        <input type="number" id="max-posts" class="form-control" min="1" max="1000" value="100">
+                        <small class="form-help">Limit the number of posts to extract in a single scan (1-1000)</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="include-images" checked>
+                            <span class="checkmark"></span>
+                            Include posts with images
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="include-videos" checked>
+                            <span class="checkmark"></span>
+                            Include posts with videos
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="auto-scroll" checked>
+                            <span class="checkmark"></span>
+                            Automatically scroll to load more posts
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="data-fields">Data Fields to Extract:</label>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="data-fields" value="url" checked>
+                                <span class="checkmark"></span>
+                                Post URL
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="data-fields" value="author" checked>
+                                <span class="checkmark"></span>
+                                Author Information
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="data-fields" value="content" checked>
+                                <span class="checkmark"></span>
+                                Post Content
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="data-fields" value="metrics" checked>
+                                <span class="checkmark"></span>
+                                Engagement Metrics
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="data-fields" value="timestamp" checked>
+                                <span class="checkmark"></span>
+                                Post Timestamp
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="data-fields" value="media" checked>
+                                <span class="checkmark"></span>
+                                Media Information
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export Tab -->
+            <div class="tab-content" id="export-tab">
+                <div class="section">
+                    <h2>Export Settings</h2>
+                    <p>Customize how your data is formatted and exported to Google Sheets.</p>
+
+                    <div class="form-group">
+                        <label for="export-format">Export Format:</label>
+                        <select id="export-format" class="form-control">
+                            <option value="detailed">Detailed (all fields)</option>
+                            <option value="summary">Summary (key fields only)</option>
+                            <option value="custom">Custom (choose fields)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="auto-export" checked>
+                            <span class="checkmark"></span>
+                            Automatically export after scanning
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="notifications" checked>
+                            <span class="checkmark"></span>
+                            Show notifications for export status
+                        </label>
+                    </div>
+
+                    <div class="export-history">
+                        <h3>Export History</h3>
+                        <div class="history-list" id="export-history">
+                            <div class="history-item">
+                                <div class="history-date">No exports yet</div>
+                                <div class="history-details">Start scanning posts to see your export history here</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Tab -->
+            <div class="tab-content" id="advanced-tab">
+                <div class="section">
+                    <h2>Advanced Settings</h2>
+                    <p>Advanced configuration options for power users.</p>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="debug-mode">
+                            <span class="checkmark"></span>
+                            Enable debug mode
+                        </label>
+                        <small class="form-help">Shows detailed logging in browser console</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="scan-delay">Scan Delay (ms):</label>
+                        <input type="number" id="scan-delay" class="form-control" min="100" max="5000" value="1000">
+                        <small class="form-help">Delay between scanning posts (100-5000ms)</small>
+                    </div>
+
+                    <div class="danger-zone">
+                        <h3>Danger Zone</h3>
+                        <p>These actions cannot be undone.</p>
+                        
+                        <button class="btn btn-danger" id="clear-data-btn">Clear All Data</button>
+                        <button class="btn btn-danger" id="reset-settings-btn">Reset Settings</button>
+                    </div>
+
+                    <div class="debug-info">
+                        <h3>Debug Information</h3>
+                        <div class="debug-item">
+                            <strong>Extension Version:</strong> <span id="debug-version">1.0.0</span>
+                        </div>
+                        <div class="debug-item">
+                            <strong>Chrome Version:</strong> <span id="debug-chrome"></span>
+                        </div>
+                        <div class="debug-item">
+                            <strong>Storage Used:</strong> <span id="debug-storage">0 KB</span>
+                        </div>
+                        <button class="btn btn-secondary" id="export-debug-btn">Export Debug Info</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Tab -->
+            <div class="tab-content" id="about-tab">
+                <div class="section">
+                    <h2>About LinkedIn Post Consolidator</h2>
+                    
+                    <div class="about-content">
+                        <div class="feature-list">
+                            <h3>Features</h3>
+                            <ul>
+                                <li>Extract LinkedIn posts with detailed analytics</li>
+                                <li>Export data to Google Sheets with formatting</li>
+                                <li>Analyze engagement metrics and trends</li>
+                                <li>Secure, privacy-focused data handling</li>
+                                <li>No automation - manual trigger only</li>
+                            </ul>
+                        </div>
+
+                        <div class="privacy-info">
+                            <h3>Privacy & Security</h3>
+                            <p>This extension respects your privacy and LinkedIn's terms of service:</p>
+                            <ul>
+                                <li>No automated posting or interactions</li>
+                                <li>Data is only extracted when you manually trigger it</li>
+                                <li>No data is stored on external servers</li>
+                                <li>Google Sheets integration uses secure OAuth2</li>
+                                <li>All processing happens locally in your browser</li>
+                            </ul>
+                        </div>
+
+                        <div class="support-info">
+                            <h3>Support & Feedback</h3>
+                            <p>Need help or have suggestions? We'd love to hear from you!</p>
+                            <div class="support-links">
+                                <a href="#" class="btn btn-secondary" id="report-issue-btn">Report Issue</a>
+                                <a href="#" class="btn btn-secondary" id="feature-request-btn">Request Feature</a>
+                                <a href="#" class="btn btn-secondary" id="rate-extension-btn">Rate Extension</a>
+                            </div>
+                        </div>
+
+                        <div class="legal-info">
+                            <h3>Legal</h3>
+                            <p>This extension is not affiliated with LinkedIn Corporation. LinkedIn is a trademark of LinkedIn Corporation.</p>
+                            <div class="legal-links">
+                                <a href="#" id="privacy-policy-link">Privacy Policy</a>
+                                <a href="#" id="terms-link">Terms of Service</a>
+                                <a href="#" id="license-link">License</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <p>&copy; 2024 LinkedIn Post Consolidator. Made with ❤️ for LinkedIn creators.</p>
+                </div>
+                <div class="footer-right">
+                    <button class="btn btn-primary" id="save-settings-btn">Save Settings</button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <div class="toast-icon" id="toast-icon"></div>
+            <div class="toast-message" id="toast-message"></div>
+        </div>
+        <button class="toast-close" id="toast-close">&times;</button>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">Loading...</div>
+    </div>
+
+    <script src="options.js"></script>
+</body>
+</html>

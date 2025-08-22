@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .icon-preview { margin: 10px; display: inline-block; text-align: center; }
+        .icon-preview img { border: 1px solid #ccc; margin: 5px; }
+        canvas { display: none; }
+    </style>
+</head>
+<body>
+    <h1>LinkedIn Extension Icon Generator</h1>
+    <p>This page generates the required icon sizes for the Chrome extension.</p>
+    
+    <div id="previews"></div>
+    
+    <canvas id="canvas"></canvas>
+    
+    <script>
+        const sizes = [16, 32, 48, 128];
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const previewsDiv = document.getElementById('previews');
+        
+        function createIcon(size) {
+            canvas.width = size;
+            canvas.height = size;
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, size, size);
+            
+            // Background circle
+            const centerX = size / 2;
+            const centerY = size / 2;
+            const radius = size * 0.47;
+            
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+            ctx.fillStyle = '#0077B5';
+            ctx.fill();
+            ctx.strokeStyle = '#005885';
+            ctx.lineWidth = size * 0.015;
+            ctx.stroke();
+            
+            // Document stack
+            const docWidth = size * 0.375;
+            const docHeight = size * 0.47;
+            const docX = size * 0.25;
+            const docY = size * 0.22;
+            
+            // Back document
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.fillRect(docX + size * 0.06, docY + size * 0.06, docWidth, docHeight);
+            
+            // Middle document
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+            ctx.fillRect(docX + size * 0.03, docY + size * 0.03, docWidth, docHeight);
+            
+            // Front document
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(docX, docY, docWidth, docHeight);
+            
+            // Document content lines
+            ctx.fillStyle = '#0077B5';
+            const lineHeight = size * 0.015;
+            const lineSpacing = size * 0.047;
+            const contentX = docX + size * 0.047;
+            let contentY = docY + size * 0.063;
+            
+            // Line 1
+            ctx.fillRect(contentX, contentY, size * 0.188, lineHeight);
+            contentY += lineSpacing;
+            
+            // Line 2
+            ctx.fillRect(contentX, contentY, size * 0.281, lineHeight);
+            contentY += lineSpacing;
+            
+            // Line 3
+            ctx.fillRect(contentX, contentY, size * 0.234, lineHeight);
+            contentY += lineSpacing;
+            
+            // Line 4
+            ctx.fillRect(contentX, contentY, size * 0.25, lineHeight);
+            
+            // Export arrow
+            const arrowX = docX + size * 0.25;
+            const arrowY = docY + size * 0.273;
+            const arrowSize = size * 0.094;
+            
+            ctx.strokeStyle = '#0077B5';
+            ctx.lineWidth = size * 0.015;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            ctx.beginPath();
+            // Vertical line
+            ctx.moveTo(arrowX + arrowSize/2, arrowY);
+            ctx.lineTo(arrowX + arrowSize/2, arrowY + arrowSize);
+            // Arrow head
+            ctx.moveTo(arrowX + arrowSize/4, arrowY + arrowSize * 0.75);
+            ctx.lineTo(arrowX + arrowSize/2, arrowY + arrowSize);
+            ctx.lineTo(arrowX + arrowSize * 0.75, arrowY + arrowSize * 0.75);
+            ctx.stroke();
+            
+            // LinkedIn "in" indicator
+            const inX = size * 0.75;
+            const inY = size * 0.25;
+            const inRadius = size * 0.094;
+            
+            ctx.beginPath();
+            ctx.arc(inX, inY, inRadius, 0, 2 * Math.PI);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+            
+            // "in" text
+            ctx.fillStyle = '#0077B5';
+            ctx.font = `bold ${size * 0.078}px Arial, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('in', inX, inY);
+            
+            return canvas.toDataURL('image/png');
+        }
+        
+        function downloadIcon(dataUrl, filename) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = dataUrl;
+            link.click();
+        }
+        
+        // Generate all icon sizes
+        sizes.forEach(size => {
+            const dataUrl = createIcon(size);
+            
+            // Create preview
+            const preview = document.createElement('div');
+            preview.className = 'icon-preview';
+            
+            const img = document.createElement('img');
+            img.src = dataUrl;
+            img.width = size > 48 ? 48 : size;
+            img.height = size > 48 ? 48 : size;
+            img.title = `${size}x${size}`;
+            
+            const label = document.createElement('div');
+            label.textContent = `${size}x${size}`;
+            
+            const downloadBtn = document.createElement('button');
+            downloadBtn.textContent = 'Download';
+            downloadBtn.onclick = () => downloadIcon(dataUrl, `icon-${size}.png`);
+            
+            preview.appendChild(img);
+            preview.appendChild(label);
+            preview.appendChild(downloadBtn);
+            previewsDiv.appendChild(preview);
+        });
+        
+        // Auto-download all icons
+        setTimeout(() => {
+            sizes.forEach(size => {
+                const dataUrl = createIcon(size);
+                downloadIcon(dataUrl, `icon-${size}.png`);
+            });
+        }, 1000);
+    </script>
+</body>
+</html>

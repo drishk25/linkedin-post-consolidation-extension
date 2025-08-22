@@ -1,0 +1,622 @@
+/**
+ * LinkedIn Post Consolidator - Overlay Styles
+ * Floating overlay interface styles
+ */
+
+/* Main overlay container */
+.linkedin-consolidator-overlay {
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 999999;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #333;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Toggle button */
+.overlay-toggle {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  background: #0a66c2;
+  border-radius: 24px 0 0 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.overlay-toggle:hover {
+  background: #004182;
+  transform: translateX(-4px);
+}
+
+.toggle-icon {
+  color: white;
+  transition: transform 0.2s ease;
+}
+
+.overlay-toggle:hover .toggle-icon {
+  transform: scale(1.1);
+}
+
+.toggle-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #ff4757;
+  color: white;
+  border-radius: 10px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 600;
+  min-width: 16px;
+  text-align: center;
+  display: none;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Overlay panel */
+.overlay-panel {
+  position: absolute;
+  top: 0;
+  right: 48px;
+  width: 380px;
+  max-height: 80vh;
+  background: white;
+  border-radius: 12px 0 0 12px;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  border: 1px solid #e1e5e9;
+}
+
+.linkedin-consolidator-overlay.expanded .overlay-panel {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Panel header */
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #0a66c2 0%, #004182 100%);
+  color: white;
+  border-radius: 12px 0 0 0;
+}
+
+.header-title h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.header-subtitle {
+  font-size: 12px;
+  opacity: 0.9;
+  margin-top: 2px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Panel content */
+.panel-content {
+  padding: 20px;
+  max-height: calc(80vh - 64px);
+  overflow-y: auto;
+}
+
+/* Status section */
+.status-section {
+  margin-bottom: 20px;
+}
+
+.page-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.status-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ccc;
+}
+
+.page-status.saved-posts .status-indicator {
+  background: #10b981;
+}
+
+.page-status.feed .status-indicator {
+  background: #3b82f6;
+}
+
+.page-status.linkedin .status-indicator {
+  background: #0a66c2;
+}
+
+.status-text {
+  font-weight: 500;
+  color: #374151;
+}
+
+.posts-count {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.count-number {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0a66c2;
+}
+
+.count-label {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Scan section */
+.scan-section {
+  margin-bottom: 20px;
+}
+
+.scan-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.scan-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.scan-btn.primary {
+  background: #0a66c2;
+  color: white;
+}
+
+.scan-btn.primary:hover {
+  background: #004182;
+  transform: translateY(-1px);
+}
+
+.scan-btn.secondary {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.scan-btn.secondary:hover {
+  background: #e5e7eb;
+}
+
+.scan-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Progress bar */
+.scan-progress {
+  margin-bottom: 12px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #f3f4f6;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0a66c2, #3b82f6);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+.progress-text {
+  font-size: 12px;
+  color: #6b7280;
+  text-align: center;
+}
+
+/* Results section */
+.results-section {
+  margin-bottom: 20px;
+}
+
+.results-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.results-header h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.results-count {
+  font-size: 12px;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.results-list {
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.result-item {
+  padding: 12px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.result-item:last-child {
+  border-bottom: none;
+}
+
+.result-author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.author-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.author-info {
+  flex: 1;
+}
+
+.author-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: #374151;
+}
+
+.post-time {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.result-content {
+  font-size: 12px;
+  color: #4b5563;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.result-metrics {
+  display: flex;
+  gap: 12px;
+}
+
+.metric {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.more-items {
+  text-align: center;
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Export controls */
+.export-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.export-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.export-btn.primary {
+  background: #10b981;
+  color: white;
+}
+
+.export-btn.primary:hover {
+  background: #059669;
+  transform: translateY(-1px);
+}
+
+.export-btn.secondary {
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.export-btn.secondary:hover {
+  background: #e5e7eb;
+}
+
+/* Settings section */
+.settings-section {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 16px;
+}
+
+.settings-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: none;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.settings-btn:hover {
+  background: #f9fafb;
+  color: #374151;
+}
+
+/* Notifications */
+.overlay-notification {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  transform: translateY(-100px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.overlay-notification.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.overlay-notification.info {
+  background: #dbeafe;
+  color: #1e40af;
+  border: 1px solid #93c5fd;
+}
+
+.overlay-notification.success {
+  background: #d1fae5;
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+}
+
+.overlay-notification.warning {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+}
+
+.overlay-notification.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+/* Scrollbar styling */
+.panel-content::-webkit-scrollbar,
+.results-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.panel-content::-webkit-scrollbar-track,
+.results-list::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.panel-content::-webkit-scrollbar-thumb,
+.results-list::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.panel-content::-webkit-scrollbar-thumb:hover,
+.results-list::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Responsive adjustments */
+@media (max-height: 600px) {
+  .overlay-panel {
+    max-height: 90vh;
+  }
+  
+  .panel-content {
+    max-height: calc(90vh - 64px);
+  }
+  
+  .results-list {
+    max-height: 150px;
+  }
+}
+
+@media (max-width: 480px) {
+  .overlay-panel {
+    width: calc(100vw - 60px);
+    max-width: 380px;
+  }
+}
+
+/* Animation for smooth interactions */
+.scan-btn,
+.export-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-btn::before,
+.export-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.scan-btn:active::before,
+.export-btn:active::before {
+  width: 200px;
+  height: 200px;
+}
+
+/* Loading states */
+.scan-btn.loading,
+.export-btn.loading {
+  position: relative;
+  color: transparent;
+}
+
+.scan-btn.loading::after,
+.export-btn.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Focus states for accessibility */
+.overlay-toggle:focus,
+.close-btn:focus,
+.scan-btn:focus,
+.export-btn:focus,
+.settings-btn:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .linkedin-consolidator-overlay {
+    border: 2px solid #000;
+  }
+  
+  .overlay-panel {
+    border: 2px solid #000;
+  }
+  
+  .scan-btn,
+  .export-btn {
+    border: 1px solid #000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .linkedin-consolidator-overlay,
+  .overlay-panel,
+  .toggle-icon,
+  .scan-btn,
+  .export-btn,
+  .progress-fill,
+  .overlay-notification {
+    transition: none;
+  }
+  
+  .toggle-badge {
+    animation: none;
+  }
+}
