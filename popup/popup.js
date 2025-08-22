@@ -40,11 +40,32 @@ class PopupManager {
      * Setup all event listeners
      */
     setupEventListeners() {
+        console.log('Setting up event listeners...');
+        
         // Main action buttons
-        document.getElementById('scan-posts').addEventListener('click', () => this.handleScanPosts());
-        document.getElementById('export-posts').addEventListener('click', () => this.handleExportPosts());
-        document.getElementById('toggle-overlay').addEventListener('click', () => this.handleToggleOverlay());
-        document.getElementById('clear-data').addEventListener('click', () => this.handleClearData());
+        const scanBtn = document.getElementById('scan-posts');
+        const exportBtn = document.getElementById('export-posts');
+        const overlayBtn = document.getElementById('toggle-overlay');
+        const clearBtn = document.getElementById('clear-data');
+        
+        console.log('Button elements found:', { scanBtn, exportBtn, overlayBtn, clearBtn });
+        
+        scanBtn.addEventListener('click', () => {
+            console.log('Scan button clicked');
+            this.handleScanPosts();
+        });
+        exportBtn.addEventListener('click', () => {
+            console.log('Export button clicked');
+            this.handleExportPosts();
+        });
+        overlayBtn.addEventListener('click', () => {
+            console.log('Overlay button clicked');
+            this.handleToggleOverlay();
+        });
+        clearBtn.addEventListener('click', () => {
+            console.log('Clear button clicked');
+            this.handleClearData();
+        });
 
         // Settings and navigation
         document.getElementById('settings-btn').addEventListener('click', () => this.openSettings());
@@ -591,5 +612,11 @@ class PopupManager {
 
 // Initialize popup when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    new PopupManager();
+    console.log('DOM loaded, initializing PopupManager...');
+    try {
+        new PopupManager();
+        console.log('PopupManager initialized successfully');
+    } catch (error) {
+        console.error('Failed to initialize PopupManager:', error);
+    }
 });
